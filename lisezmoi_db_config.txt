@@ -1,0 +1,13 @@
+Pour configurer la connexion à la BD PostgreSQL :
+
+1. Copier db_config.js.exemple vers db_config.js
+2. Éditer ce fichier afin d'y mettre les bons paramètres de connexion vers la BD.
+3. Lancer le back-end comme d'habitude.
+
+
+Identifiant Mot de passe Remarques
+josbleau 12345
+jeannebleau 12345
+marcarcand marcarcandworld Compte désactivé, le « login » ne doit pas être permis
+admin topsecret Compte administrateur avec des droits privilégiés
+
