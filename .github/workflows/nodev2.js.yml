@@ -38,8 +38,8 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: npm install nodemon -g --save
-      - run: (npm run dev&)
-      - run: npm test
       - name: Run init script
         run: |
           sudo -u postgres psql -U backend_user -d paniervert -a -f initdb.sql
+      - run: (npm run dev&)
+      - run: npm test
