@@ -41,11 +41,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install postgresql
           sudo service postgresql start
-          
+          sudo -u postgres psql -c "CREATE USER backend_user WITH PASSWORD '12345';"
+
       - name: Create database and run init script
         run: |
-          psql -U postgres -c "CREATE DATABASE paniervert;"
-          psql -U postgres -d paniervert -a -f initdb.sql
+          sudo -u postgres psql -U backend_user -d paniervert -a -f initdb.sql
           
       - name: Run tests
         run: npm test

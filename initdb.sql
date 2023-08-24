@@ -183,7 +183,6 @@ VALUES
 
 SELECT setval('cart_cart_key_seq', COALESCE((SELECT MAX(cart_key) FROM cart), 1));
 SELECT setval('purchase_order_purchase_order_key_seq', COALESCE((SELECT MAX(purchase_order_key) FROM purchase_order), 1));
-CREATE USER backend_user WITH PASSWORD '12345';
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA "public" TO backend_user;
 GRANT SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA "public" TO backend_user;
