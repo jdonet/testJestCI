@@ -1,4 +1,4 @@
-CREATE DATABASE paniervert;
+USE paniervert;
 CREATE ROLE backend_user WITH
 	LOGIN
 	NOSUPERUSER

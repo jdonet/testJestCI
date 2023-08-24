@@ -14,38 +14,32 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x]
-
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: paniervert        
+          POSTGRES_PASSWORD: 12345
+          POSTGRES_USER: backend_user
+        ports:
+          - 5433:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - uses: actions/checkout@v2
-      
-      - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          
-      - name: Install dependencies
-        run: npm ci
-        
-      - name: Build
-        run: npm run build --if-present
-        
-      - name: Install nodemon
-        run: npm install nodemon -g --save
-        
-      - name: Start Node.js app
-        run: npm run dev &
-
-      # Add steps to set up PostgreSQL and initialize the database
-      - name: Set up PostgreSQL
-        run: |
-          sudo apt-get update
-          sudo apt-get install postgresql
-          sudo service postgresql start
-          sudo -u postgres psql -c "CREATE USER backend_user WITH PASSWORD '12345';"
-
-      - name: Create database and run init script
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm install nodemon -g --save
+      - run: (npm run dev&)
+      - run: npm test
+      - name: Run init script
         run: |
           sudo -u postgres psql -U backend_user -d paniervert -a -f initdb.sql
-          
-      - name: Run tests
-        run: npm test
