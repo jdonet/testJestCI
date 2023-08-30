@@ -9,7 +9,8 @@ app.use('/products', productRouter);
 
 // Mock des fonctions de la couche d'accès aux données (ProductQueries)
 jest.mock('../../queries/ProductQueries', () => ({
-  getAllProducts: jest.fn()
+  getAllProducts: jest.fn(),
+  getProductById: jest.fn()
 }));
 
 describe('GET /products', () => {
@@ -27,6 +28,20 @@ describe('GET /products', () => {
     // Vérifie la réponse
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(mockProducts);
+  });
+
+  test('should respond with JSON containing 1 product', async () => {
+    // Mock la fonction getAllProducts pour renvoyer un tableau de produits simulé
+    const mockProduct = { id: 1, name: 'Product 1', price: 10 };
+     
+    productQueries.getProductById.mockResolvedValue(mockProduct);
+
+    // Effectue la requête HTTP GET à '/products'
+    const response = await request(app).get('/products/chaise');
+
+    // Vérifie la réponse
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(mockProduct);
   });
 
   /**
